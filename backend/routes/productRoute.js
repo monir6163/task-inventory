@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const { uploadSingle } = require("../middleware/multer");
+const { upload } = require("../middleware/multer");
 const {
   createProduct,
   getAllProducts,
@@ -8,7 +8,7 @@ const {
 } = require("../controllers/productsController");
 const router = Router();
 
-router.post("/create", uploadSingle, createProduct);
+router.post("/create", upload.single("image"), createProduct);
 router.get("/getAllProducts", getAllProducts);
 router.get("/getProductsByCategory", getProductsByCategory);
 router.delete("/deleteProduct/:id", deleteProduct);

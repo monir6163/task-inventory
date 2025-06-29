@@ -1,3 +1,4 @@
+const { cloudinaryUpload, deleteOnCloudinary } = require("../utlis/cloudinary");
 const { prisma } = require("../utlis/db");
 const fs = require("fs");
 
@@ -5,8 +6,8 @@ const fs = require("fs");
 const createProduct = async (req, res) => {
   try {
     const { name, price, cat_id } = req.body;
-    const image = req.file ? req.file.path : null;
-    if (!name || !price || !cat_id || !image) {
+    const imagelocal = req.file ? req.file.path : null;
+    if (!name || !price || !cat_id || !imagelocal) {
       return res.status(400).json({
         error: "All fields are required!",
         status: false,
@@ -26,11 +27,12 @@ const createProduct = async (req, res) => {
         data: null,
       });
     }
+    const imageUrl = await cloudinaryUpload(imagelocal, "ecom/user");
     await prisma.product.create({
       data: {
         name,
         price: parseFloat(price),
-        image,
+        image: imageUrl ? imageUrl.url : null,
         category_id: parseInt(cat_id),
       },
     });
@@ -139,11 +141,8 @@ const deleteProduct = async (req, res) => {
     });
     // Delete the image file if it exists
     if (product.image) {
-      fs.unlink(product.image, (err) => {
-        if (err) {
-          console.error("Failed to delete file:", err);
-        }
-      });
+      const publicId = product.image.split("/").pop().split(".")[0];
+      await deleteOnCloudinary(publicId);
     }
     return res.status(200).json({
       message: "Product deleted successfully!",

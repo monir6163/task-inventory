@@ -115,7 +115,7 @@ export default function ProductsTable({ categories, products, setProducts }) {
                   <td className="px-6 py-4 font-medium text-gray-200 whitespace-nowrap">
                     {product.image ? (
                       <img
-                        src={`https://task-inventory-sigma.vercel.app/${product.image}`}
+                        src={product.image}
                         alt={product.name}
                         className="w-16 h-16 object-cover"
                       />
