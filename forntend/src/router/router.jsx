@@ -11,7 +11,7 @@ export const router = createBrowserRouter([
       {
         path: "/",
         element: (
-          <h1 className="text-2xl text-center mt-10">
+          <h1 className="text-2xl text-center mt-10 text-white">
             Welcome to the Inventory Management System
           </h1>
         ),

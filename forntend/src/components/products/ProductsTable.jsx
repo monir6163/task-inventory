@@ -6,13 +6,32 @@ export default function ProductsTable({ categories, products, setProducts }) {
   const [filteredProducts, setFilteredProducts] = useState(products || []);
 
   useEffect(() => {
-    if (selectedCategory === "") {
-      setFilteredProducts(products);
-    } else {
-      setFilteredProducts(
-        products.filter((p) => p.category_id === parseInt(selectedCategory))
-      );
-    }
+    const fetchProducts = async () => {
+      try {
+        if (selectedCategory === "") {
+          setFilteredProducts(products); // show all
+        } else {
+          const res = await axios.get(
+            `http://localhost:8000/api/product/getProductsByCategory`,
+            {
+              params: {
+                category_id: selectedCategory,
+              },
+            }
+          );
+          if (res.data.status) {
+            setFilteredProducts(res.data.data);
+          } else {
+            console.error("API error:", res.data.error);
+            setFilteredProducts([]);
+          }
+        }
+      } catch (err) {
+        console.error("Fetch error:", err.message);
+      }
+    };
+
+    fetchProducts();
   }, [selectedCategory, products]);
 
   const handleFilterChange = (e) => {

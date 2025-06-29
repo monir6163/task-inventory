@@ -7,9 +7,9 @@ export default function Sidebar() {
   };
   return (
     <div className="bg-gray-100 text-gray-900 h-screen px-4 fixed w-16 md:w-64 border-r border-gray-300 dark:border-gray-600 dark:bg-gray-900 dark:text-white">
-      <h1 className="text-xl font-bold hidden md:block mt-4  italic">
+      <Link to={"/"} className="text-xl font-bold hidden md:block mt-4  italic">
         Inventory Management
-      </h1>
+      </Link>
       <ul className="flex flex-col mt-5 gap-2 text-xl">
         <Link
           to={"/categories"}
