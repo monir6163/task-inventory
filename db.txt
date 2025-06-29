@@ -1,0 +1,4 @@
+env
+
+DATABASE_URL="mysql://root:@localhost:3306/inventory"
+Port=8000
