@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { apiUrl } from "../../utils/api";
 import { fetchCategories } from "../../utils/categoryFetch";
 import { fetchProducts } from "../../utils/productsFetch";
 import ProductsTable from "./ProductsTable";
@@ -55,15 +56,11 @@ export default function CreateProduct() {
       formData.append("image", image);
     }
     try {
-      const res = await axios.post(
-        `http://localhost:8000/api/product/create`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const res = await axios.post(`${apiUrl}/product/create`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       const response = res.data;
       if (response.status) {
         setSuccess("Product created successfully!");
@@ -79,7 +76,7 @@ export default function CreateProduct() {
         setError(errorData.error || "Failed to create product.");
       }
     } catch (err) {
-      setError(err.message || "An error occurred while creating the product.");
+      setError(err.response?.data?.error);
     } finally {
       setLoading(false);
     }

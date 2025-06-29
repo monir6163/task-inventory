@@ -1,6 +1,8 @@
+import { apiUrl } from "./api";
+
 export const fetchCategories = async () => {
   try {
-    const response = await fetch("http://localhost:8000/api/category/getAll");
+    const response = await fetch(`${apiUrl}/category/getAll`);
     if (!response.ok) {
       throw new Error("Failed to fetch categories");
     }

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { apiUrl } from "../../utils/api";
 import { fetchCategories } from "../../utils/categoryFetch";
 import CategoryTable from "./CategoryTable";
 
@@ -30,12 +31,9 @@ export default function CreateForm() {
     setError(null);
     setSuccess(null);
     try {
-      const response = await axios.post(
-        `http://localhost:8000/api/category/create`,
-        {
-          name: cat_name,
-        }
-      );
+      const response = await axios.post(`${apiUrl}/category/create`, {
+        name: cat_name,
+      });
       if (response.status) {
         setSuccess("Category created successfully!");
         setCatName("");

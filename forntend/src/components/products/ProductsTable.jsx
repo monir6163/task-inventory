@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { apiUrl } from "../../utils/api";
 
 export default function ProductsTable({ categories, products, setProducts }) {
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -12,7 +13,7 @@ export default function ProductsTable({ categories, products, setProducts }) {
           setFilteredProducts(products); // show all
         } else {
           const res = await axios.get(
-            `http://localhost:8000/api/product/getProductsByCategory`,
+            `${apiUrl}/product/getProductsByCategory`,
             {
               params: {
                 category_id: selectedCategory,
@@ -45,9 +46,7 @@ export default function ProductsTable({ categories, products, setProducts }) {
     if (!confirmDelete) return;
 
     try {
-      await axios.delete(
-        `http://localhost:8000/api/product/deleteProduct/${id}`
-      );
+      await axios.delete(`${apiUrl}/product/deleteProduct/${id}`);
       setProducts((prev) => prev.filter((p) => p.id !== id));
     } catch (error) {
       console.error("Error deleting product:", error);
@@ -116,7 +115,7 @@ export default function ProductsTable({ categories, products, setProducts }) {
                   <td className="px-6 py-4 font-medium text-gray-200 whitespace-nowrap">
                     {product.image ? (
                       <img
-                        src={`http://localhost:8000/${product.image}`}
+                        src={`https://task-inventory-sigma.vercel.app/${product.image}`}
                         alt={product.name}
                         className="w-16 h-16 object-cover"
                       />

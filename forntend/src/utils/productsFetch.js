@@ -1,8 +1,8 @@
+import { apiUrl } from "./api";
+
 export const fetchProducts = async () => {
   try {
-    const response = await fetch(
-      "http://localhost:8000/api/product/getAllProducts"
-    );
+    const response = await fetch(`${apiUrl}/product/getAllProducts`);
     if (!response.ok) {
       throw new Error("Failed to fetch categories");
     }
